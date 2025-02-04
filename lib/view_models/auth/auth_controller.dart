@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+//import 'package:stout-enterprise/res/services/firestore_service/firestore_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../repository/auth_repository/auth_repository.dart';
+import '../../res/services/firestore_service/firestore_service.dart';
 import '../../res/utils/utils.dart';
 import '../../view/bottom_nav/bottom_nav.dart';
 
@@ -13,6 +15,7 @@ class AuthController extends GetxController {
   final passwordController = TextEditingController().obs;
   final emailFocus = FocusNode().obs;
   final passwordFocus = FocusNode().obs;
+  String token = '';
 
   RxBool loading = false.obs;
   RxBool isLoggedIn = false.obs;
@@ -38,12 +41,16 @@ class AuthController extends GetxController {
     final String email = emailController.value.text;
     final String password = passwordController.value.text;
     loading.value = true;
-    _api.loginAPi(email: email, password: password).then((response) {
+    _api.loginAPi(email: email, password: password).then((response) async {
       loading.value = false;
       isLoggedIn.value = true;
       var fullName = response.data['full_name'];
       name.value = fullName;
       email2.value = email;
+      await FirestoreService().updateFcmToken(email, token);
+      await _api.tokenCreation(email: email, fcmToken: token).then((value) {
+        log('response $value');
+      });
       Get.offAll(() => const BottomNav());
       Utils.successSnackBar('Successfully Logged In');
       saveUserDetails(

@@ -17,4 +17,17 @@ class AuthRepo {
       rethrow;
     }
   }
+
+  Future<dynamic> tokenCreation(
+      {required String email, required String fcmToken}) async {
+    final Map<String, dynamic> data = {"email": email, "fcm_token": fcmToken};
+    try {
+      dynamic response =
+          await _apiServices.getPostApiResponse(AppUrl.fcmTokenCreator, data);
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -51,4 +51,5 @@ class AppUrl {
 
   //sales_approval
   static var salesApproval = '$method/sales_approval';
+  static var fcmTokenCreator = '$method/token_creation';
 }

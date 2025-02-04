@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+//import 'package:/res/services/notification_service/notification_services.dart';
 import '../../res/colors.dart';
 import '../../res/components/my_button.dart';
 import '../../res/components/my_text_field.dart';
 import '../../res/constants.dart';
+import '../../res/services/notification_service/notification_services.dart';
 import '../../view_models/auth/auth_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +16,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.firebaseInit(context);
+    notificationServices.getNotificationToken().then((value) {
+      authController.token = value!;
+      print("Device Token: $value");
+    });
+    notificationServices.setupInteractMessage(context);
+  }
+
   final AuthController authController = Get.put(AuthController());
 
   bool passwordVisible = true;
@@ -31,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: padding,
         child: Obx(
-              () => SingleChildScrollView(
+          () => SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: signIn,
                   text: 'Login',
                   isLoading: authController.loading.value,
-
                 ),
               ],
             ),

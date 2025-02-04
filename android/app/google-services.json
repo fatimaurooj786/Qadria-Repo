@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "145538747707",
+    "project_id": "qadria-enterprises",
+    "storage_bucket": "qadria-enterprises.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145538747707:android:203bb3b5c8bd79582d3b1e",
+        "android_client_info": {
+          "package_name": "com.eagleSoft.qadria_enterpise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8DI-PhuCv5YhoiG7xIcpqWfLlRIs8jyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
